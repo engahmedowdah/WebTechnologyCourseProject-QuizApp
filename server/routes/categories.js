@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const categoriesBusiness = require('../business/categories_business');
+const categoriesBusiness = require('../business/categories_business_db');
 
 // Get all categories
 router.get('/', async (req, res) => {

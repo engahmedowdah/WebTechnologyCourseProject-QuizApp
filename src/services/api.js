@@ -1,4 +1,7 @@
-const API_URL = 'http://localhost:3000/api';
+// Use Render backend URL in production, localhost in development
+const API_URL = import.meta.env.PROD
+    ? 'https://webtechnologycourseproject-quizapp-27.onrender.com/api'
+    : 'http://localhost:3000/api';
 
 export const api = {
     // Categories
@@ -37,7 +40,7 @@ export const api = {
     // Quizzes
     getQuizzes: async (category) => {
         const url = category && category !== 'all'
-            ? `${API_URL}/quizzes?category=${category}`
+            ? `${API_URL}/quizzes?category=${encodeURIComponent(category)}`
             : `${API_URL}/quizzes`;
         const res = await fetch(url);
         return res.json();

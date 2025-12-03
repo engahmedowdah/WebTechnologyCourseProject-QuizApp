@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const quizBusiness = require('../business/quiz_business');
+const quizBusiness = require('../business/quiz_business_db');
 
 // Get all quizzes
 router.get('/', async (req, res) => {

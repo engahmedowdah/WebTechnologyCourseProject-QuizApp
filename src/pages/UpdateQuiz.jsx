@@ -25,7 +25,7 @@ const UpdateQuiz = () => {
             setCategories(cats);
             setFormData({
                 title: quiz.title,
-                categoryName: quiz.category,
+                categoryName: quiz.categoryName,
                 difficulty: quiz.difficulty
             });
         } catch (error) {

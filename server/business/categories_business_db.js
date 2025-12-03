@@ -1,12 +1,24 @@
-const { categoryOperations } = require('../json_db');
+const { Category, Quiz } = require('../models');
 
 const categoriesBusiness = {
     getAllCategories: async () => {
-        return categoryOperations.getAll();
+        return await Category.findAll({
+            include: [{
+                model: Quiz,
+                attributes: ['id', 'title', 'difficulty']
+            }],
+            order: [['id', 'ASC']]
+        });
     },
 
     getCategoryById: async (id) => {
-        const category = categoryOperations.getById(id);
+        const category = await Category.findByPk(id, {
+            include: [{
+                model: Quiz,
+                attributes: ['id', 'title', 'difficulty']
+            }]
+        });
+
         if (!category) {
             throw new Error('Category not found');
         }
@@ -20,22 +32,21 @@ const categoriesBusiness = {
         }
 
         // Check for duplicate
-        const existingCategories = categoryOperations.getAll();
-        const duplicate = existingCategories.find(cat =>
-            cat.name.toLowerCase() === data.name.toLowerCase()
-        );
+        const existingCategory = await Category.findOne({
+            where: { name: data.name }
+        });
 
-        if (duplicate) {
+        if (existingCategory) {
             throw new Error('Category with this name already exists');
         }
 
-        return categoryOperations.create(data);
+        return await Category.create(data);
     },
 
     updateCategory: async (id, data) => {
         // Check if category exists
-        const existing = categoryOperations.getById(id);
-        if (!existing) {
+        const category = await Category.findByPk(id);
+        if (!category) {
             throw new Error('Category not found');
         }
 
@@ -46,22 +57,24 @@ const categoriesBusiness = {
 
         // Check for duplicate name (excluding current category)
         if (data.name) {
-            const allCategories = categoryOperations.getAll();
-            const duplicate = allCategories.find(cat =>
-                cat.id !== parseInt(id) &&
-                cat.name.toLowerCase() === data.name.toLowerCase()
-            );
+            const duplicate = await Category.findOne({
+                where: { name: data.name }
+            });
 
-            if (duplicate) {
+            if (duplicate && duplicate.id !== parseInt(id)) {
                 throw new Error('Category with this name already exists');
             }
         }
 
-        return categoryOperations.update(id, data);
+        await category.update(data);
+        return category;
     },
 
     deleteCategory: async (id) => {
-        const category = categoryOperations.getById(id);
+        const category = await Category.findByPk(id, {
+            include: [Quiz]
+        });
+
         if (!category) {
             throw new Error('Category not found');
         }
@@ -71,10 +84,7 @@ const categoriesBusiness = {
             throw new Error('Cannot delete category with existing quizzes');
         }
 
-        const deleted = categoryOperations.delete(id);
-        if (!deleted) {
-            throw new Error('Failed to delete category');
-        }
+        await category.destroy();
         return true;
     }
 };

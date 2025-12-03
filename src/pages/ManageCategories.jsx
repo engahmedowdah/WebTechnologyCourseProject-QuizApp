@@ -181,8 +181,8 @@ const ManageCategories = () => {
                                     <td className="p-4 font-semibold text-center">{category.name}</td>
                                     <td className="p-4 text-gray-600 text-center">{category.description}</td>
                                     <td className="p-4 text-center">
-                                        <span className={`px-3 py-1 rounded-full text-sm ${category.quizCount > 0 ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'}`}>
-                                            {category.quizCount}
+                                        <span className={`px-3 py-1 rounded-full text-sm ${(category.Quizzes?.length || 0) > 0 ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'}`}>
+                                            {category.Quizzes?.length || 0}
                                         </span>
                                     </td>
                                     <td className="p-4">

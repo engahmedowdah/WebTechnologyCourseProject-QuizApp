@@ -38,7 +38,7 @@ const ViewQuiz = () => {
                     </div>
                     <div className="border-b pb-3">
                         <span className="font-semibold">التصنيف: </span>
-                        <span>{quiz.category}</span>
+                        <span>{quiz.categoryName}</span>
                     </div>
                     <div className="border-b pb-3">
                         <span className="font-semibold">مستوى الصعوبة: </span>
@@ -57,14 +57,14 @@ const ViewQuiz = () => {
                     >
                         {showAnswers ? 'إخفاء الإجابات' : 'إظهار الإجابات'}
                     </button>
-                    <h3 className="text-xl font-bold">الأسئلة ({quiz.questions.length})</h3>
+                    <h3 className="text-xl font-bold">الأسئلة ({quiz.Questions?.length || 0})</h3>
                 </div>
 
-                {quiz.questions.map((q, index) => (
+                {quiz.Questions?.map((q, index) => (
                     <div key={q.id} className="bg-white rounded-lg shadow-md p-6">
                         <h4 className="text-lg font-bold mb-4 text-right">{index + 1}. {q.text}</h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {q.answers.map(a => (
+                            {q.Answers?.map(a => (
                                 <div
                                     key={a.id}
                                     className={`p-3 rounded-lg border text-right ${showAnswers && a.isCorrect

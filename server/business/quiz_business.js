@@ -1,137 +1,114 @@
-const { Quiz, Question, Answer, Category } = require('../models');
+const { quizOperations, categoryOperations } = require('../json_db');
 
-const getAllQuizzes = async (categoryName) => {
-    const where = {};
+const quizBusiness = {
+    getAllQuizzes: async (categoryId = null) => {
+        return quizOperations.getAll(categoryId);
+    },
 
-    if (categoryName && categoryName !== 'all') {
-        const cat = await Category.findOne({ where: { name: categoryName } });
-        if (cat) {
-            where.CategoryId = cat.id;
+    getQuizById: async (id) => {
+        const quiz = quizOperations.getById(id);
+        if (!quiz) {
+            throw new Error('Quiz not found');
         }
-    }
+        return quiz;
+    },
 
-    const quizzes = await Quiz.findAll({
-        where,
-        include: [
-            { model: Category, attributes: ['name'] },
-            { model: Question }
-        ]
-    });
-
-    return quizzes.map(q => ({
-        id: q.id,
-        title: q.title,
-        category: q.Category ? q.Category.name : 'Uncategorized',
-        questions: q.Questions.length,
-        difficulty: q.difficulty
-    }));
-};
-
-const getQuizById = async (id) => {
-    const quiz = await Quiz.findByPk(id, {
-        include: [
-            { model: Category },
-            {
-                model: Question,
-                include: [Answer]
-            }
-        ]
-    });
-
-    if (!quiz) throw new Error('Quiz not found');
-
-    return {
-        id: quiz.id,
-        title: quiz.title,
-        category: quiz.Category ? quiz.Category.name : 'Uncategorized',
-        difficulty: quiz.difficulty,
-        questions: quiz.Questions.map(q => ({
-            id: q.id,
-            text: q.text,
-            answers: q.Answers.map(a => ({
-                id: a.id,
-                text: a.text,
-                isCorrect: a.isCorrect
-            }))
-        }))
-    };
-};
-
-const createQuiz = async (data) => {
-    const { title, categoryName, difficulty, questions } = data;
-
-    // Validation: Check if questions exist
-    if (!questions || questions.length === 0) {
-        throw new Error('Cannot create a quiz without questions');
-    }
-
-    let category = await Category.findOne({ where: { name: categoryName } });
-    if (!category) {
-        category = await Category.create({ name: categoryName });
-    }
-
-    const quiz = await Quiz.create({
-        title,
-        difficulty,
-        CategoryId: category.id
-    });
-
-    for (const q of questions) {
-        const question = await Question.create({
-            text: q.text,
-            QuizId: quiz.id
-        });
-
-        if (q.answers && q.answers.length > 0) {
-            for (const a of q.answers) {
-                await Answer.create({
-                    text: a.text,
-                    isCorrect: a.isCorrect,
-                    QuestionId: question.id
-                });
-            }
+    createQuiz: async (data) => {
+        // Validation
+        if (!data.title || data.title.trim() === '') {
+            throw new Error('Quiz title is required');
         }
-    }
 
-    return quiz;
-};
+        if (!data.CategoryId) {
+            throw new Error('Category ID is required');
+        }
 
-const updateQuiz = async (id, data) => {
-    const { title, categoryName, difficulty } = data;
-    const quiz = await Quiz.findByPk(id);
-
-    if (!quiz) throw new Error('Quiz not found');
-
-    let categoryId = quiz.CategoryId;
-    if (categoryName) {
-        let category = await Category.findOne({ where: { name: categoryName } });
+        // Check if category exists
+        const category = categoryOperations.getById(data.CategoryId);
         if (!category) {
-            category = await Category.create({ name: categoryName });
+            throw new Error('Category not found');
         }
-        categoryId = category.id;
+
+        // Validate difficulty
+        const validDifficulties = ['سهل', 'متوسط', 'صعب'];
+        if (data.difficulty && !validDifficulties.includes(data.difficulty)) {
+            throw new Error('Invalid difficulty level');
+        }
+
+        // Validate questions if provided
+        if (data.Questions && Array.isArray(data.Questions)) {
+            for (let question of data.Questions) {
+                if (!question.text || question.text.trim() === '') {
+                    throw new Error('Question text is required');
+                }
+
+                if (!question.Answers || !Array.isArray(question.Answers) || question.Answers.length < 2) {
+                    throw new Error('Each question must have at least 2 answers');
+                }
+
+                const correctAnswers = question.Answers.filter(a => a.isCorrect);
+                if (correctAnswers.length !== 1) {
+                    throw new Error('Each question must have exactly one correct answer');
+                }
+            }
+        }
+
+        return quizOperations.create(data);
+    },
+
+    updateQuiz: async (id, data) => {
+        // Check if quiz exists
+        const existing = quizOperations.getById(id);
+        if (!existing) {
+            throw new Error('Quiz not found');
+        }
+
+        // Validation
+        if (data.title && data.title.trim() === '') {
+            throw new Error('Quiz title cannot be empty');
+        }
+
+        // Validate difficulty if provided
+        if (data.difficulty) {
+            const validDifficulties = ['سهل', 'متوسط', 'صعب'];
+            if (!validDifficulties.includes(data.difficulty)) {
+                throw new Error('Invalid difficulty level');
+            }
+        }
+
+        // Validate questions if provided
+        if (data.Questions && Array.isArray(data.Questions)) {
+            for (let question of data.Questions) {
+                if (!question.text || question.text.trim() === '') {
+                    throw new Error('Question text is required');
+                }
+
+                if (!question.Answers || !Array.isArray(question.Answers) || question.Answers.length < 2) {
+                    throw new Error('Each question must have at least 2 answers');
+                }
+
+                const correctAnswers = question.Answers.filter(a => a.isCorrect);
+                if (correctAnswers.length !== 1) {
+                    throw new Error('Each question must have exactly one correct answer');
+                }
+            }
+        }
+
+        return quizOperations.update(id, data);
+    },
+
+    deleteQuiz: async (id) => {
+        const quiz = quizOperations.getById(id);
+        if (!quiz) {
+            throw new Error('Quiz not found');
+        }
+
+        const deleted = quizOperations.delete(id);
+        if (!deleted) {
+            throw new Error('Failed to delete quiz');
+        }
+        return true;
     }
-
-    await quiz.update({
-        title,
-        difficulty,
-        CategoryId: categoryId
-    });
-
-    return quiz;
 };
 
-const deleteQuiz = async (id) => {
-    const deleted = await Quiz.destroy({
-        where: { id }
-    });
-    if (!deleted) throw new Error('Quiz not found');
-    return true;
-};
-
-module.exports = {
-    getAllQuizzes,
-    getQuizById,
-    createQuiz,
-    updateQuiz,
-    deleteQuiz
-};
+module.exports = quizBusiness;

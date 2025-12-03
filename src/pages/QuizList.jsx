@@ -140,8 +140,8 @@ const QuizList = () => {
                                                 {quiz.difficulty}
                                             </span>
                                         </td>
-                                        <td className="p-4 text-center">{quiz.questions}</td>
-                                        <td className="p-4 text-center">{quiz.category}</td>
+                                        <td className="p-4 text-center">{quiz.Questions?.length || 0}</td>
+                                        <td className="p-4 text-center">{quiz.categoryName}</td>
                                         <td className="p-4 font-semibold text-center">{quiz.title}</td>
                                     </tr>
                                 );
