@@ -289,8 +289,8 @@ const initializeData = () => {
         const defaultQuizzes = [];
         let quizId = 1;
 
-        // Define quiz counts for each category
-        const quizCounts = [0, 5, 10, 15, 20, 0, 5, 10, 15, 20, 5, 10];
+        // Define quiz counts for each category (all categories now have quizzes)
+        const quizCounts = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10];
         // Define question counts pattern
         const questionCounts = [5, 10, 15, 20, 5];
 
