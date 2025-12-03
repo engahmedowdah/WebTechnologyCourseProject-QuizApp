@@ -1,75 +1,79 @@
-// Use Render backend URL in production, localhost in development
-const API_URL = import.meta.env.PROD
-    ? 'https://webtechnologycourseproject-quizapp-27.onrender.com/api'
-    : 'http://localhost:3000/api';
+// LocalStorage-based API service
+// No backend required - all data stored in browser LocalStorage
+import { localStorageService } from './localStorage.js';
 
 export const api = {
     // Categories
     getCategories: async () => {
-        const res = await fetch(`${API_URL}/categories`);
-        return res.json();
+        // Simulate async behavior for consistency
+        return Promise.resolve(localStorageService.getCategories());
     },
+
     createCategory: async (data) => {
-        const response = await fetch(`${API_URL}/categories`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data),
-        });
-        if (!response.ok) throw new Error('Failed to create category');
-        return response.json();
+        try {
+            const newCategory = localStorageService.createCategory(data);
+            return Promise.resolve(newCategory);
+        } catch (error) {
+            return Promise.reject(new Error('Failed to create category'));
+        }
     },
 
     updateCategory: async (id, data) => {
-        const response = await fetch(`${API_URL}/categories/${id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data),
-        });
-        if (!response.ok) throw new Error('Failed to update category');
-        return response.json();
+        try {
+            const updatedCategory = localStorageService.updateCategory(id, data);
+            return Promise.resolve(updatedCategory);
+        } catch (error) {
+            return Promise.reject(new Error('Failed to update category'));
+        }
     },
 
     deleteCategory: async (id) => {
-        const response = await fetch(`${API_URL}/categories/${id}`, {
-            method: 'DELETE',
-        });
-        if (!response.ok) throw new Error('Failed to delete category');
-        return true;
+        try {
+            localStorageService.deleteCategory(id);
+            return Promise.resolve(true);
+        } catch (error) {
+            return Promise.reject(new Error('Failed to delete category'));
+        }
     },
 
     // Quizzes
     getQuizzes: async (category) => {
-        const url = category && category !== 'all'
-            ? `${API_URL}/quizzes?category=${encodeURIComponent(category)}`
-            : `${API_URL}/quizzes`;
-        const res = await fetch(url);
-        return res.json();
+        return Promise.resolve(localStorageService.getQuizzes(category));
     },
+
     getQuiz: async (id) => {
-        const res = await fetch(`${API_URL}/quizzes/${id}`);
-        return res.json();
+        try {
+            const quiz = localStorageService.getQuiz(id);
+            return Promise.resolve(quiz);
+        } catch (error) {
+            return Promise.reject(new Error('Quiz not found'));
+        }
     },
+
     createQuiz: async (quizData) => {
-        const res = await fetch(`${API_URL}/quizzes`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(quizData)
-        });
-        return res.json();
+        try {
+            const newQuiz = localStorageService.createQuiz(quizData);
+            return Promise.resolve(newQuiz);
+        } catch (error) {
+            return Promise.reject(new Error('Failed to create quiz'));
+        }
     },
+
     updateQuiz: async (id, quizData) => {
-        const res = await fetch(`${API_URL}/quizzes/${id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(quizData)
-        });
-        return res.json();
+        try {
+            const updatedQuiz = localStorageService.updateQuiz(id, quizData);
+            return Promise.resolve(updatedQuiz);
+        } catch (error) {
+            return Promise.reject(new Error('Failed to update quiz'));
+        }
     },
+
     deleteQuiz: async (id) => {
-        const res = await fetch(`${API_URL}/quizzes/${id}`, {
-            method: 'DELETE'
-        });
-        if (!res.ok) throw new Error('Failed to delete quiz');
-        return true;
+        try {
+            localStorageService.deleteQuiz(id);
+            return Promise.resolve(true);
+        } catch (error) {
+            return Promise.reject(new Error('Failed to delete quiz'));
+        }
     }
 };

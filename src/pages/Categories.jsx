@@ -5,17 +5,29 @@ import { api } from '../services/api';
 const Categories = () => {
     const navigate = useNavigate();
     const [categories, setCategories] = useState([]);
+    const [quizCounts, setQuizCounts] = useState({});
 
     useEffect(() => {
-        loadCategories();
+        loadData();
     }, []);
 
-    const loadCategories = async () => {
+    const loadData = async () => {
         try {
-            const data = await api.getCategories();
-            setCategories(data);
+            // Load categories
+            const categoriesData = await api.getCategories();
+            setCategories(categoriesData);
+
+            // Load all quizzes to count them per category
+            const quizzesData = await api.getQuizzes();
+
+            // Count quizzes per category
+            const counts = {};
+            quizzesData.forEach(quiz => {
+                counts[quiz.category] = (counts[quiz.category] || 0) + 1;
+            });
+            setQuizCounts(counts);
         } catch (error) {
-            console.error('Failed to load categories', error);
+            console.error('Failed to load data', error);
         }
     };
 
@@ -40,7 +52,7 @@ const Categories = () => {
                         <div className="text-xl mb-2">{cat.name}</div>
                         <div className="flex items-center justify-center gap-2 text-sm text-gray-600">
                             <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-purple-100 text-purple-600 font-bold text-xs">
-                                {cat.Quizzes?.length || 0}
+                                {quizCounts[cat.name] || 0}
                             </span>
                             <span>اختبار</span>
                         </div>
@@ -52,3 +64,4 @@ const Categories = () => {
 };
 
 export default Categories;
+

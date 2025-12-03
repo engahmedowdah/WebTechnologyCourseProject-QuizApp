@@ -5,6 +5,7 @@ import Modal from '../components/Modal';
 
 const ManageCategories = () => {
     const [categories, setCategories] = useState([]);
+    const [quizCounts, setQuizCounts] = useState({});
     const [formData, setFormData] = useState({ name: '', description: '' });
     const [editingId, setEditingId] = useState(null);
     const [modalConfig, setModalConfig] = useState({
@@ -21,8 +22,26 @@ const ManageCategories = () => {
 
     const loadCategories = async () => {
         try {
-            const data = await api.getCategories();
-            setCategories(data);
+            // Load categories
+            const categoriesData = await api.getCategories();
+
+            // Load all quizzes to count them per category
+            const quizzesData = await api.getQuizzes();
+
+            // Count quizzes per category
+            const counts = {};
+            quizzesData.forEach(quiz => {
+                counts[quiz.category] = (counts[quiz.category] || 0) + 1;
+            });
+            setQuizCounts(counts);
+
+            // Add canDelete property based on quiz count
+            const categoriesWithCanDelete = categoriesData.map(cat => ({
+                ...cat,
+                canDelete: (counts[cat.name] || 0) === 0
+            }));
+
+            setCategories(categoriesWithCanDelete);
         } catch (error) {
             console.error('Failed to load categories', error);
         }
@@ -181,8 +200,8 @@ const ManageCategories = () => {
                                     <td className="p-4 font-semibold text-center">{category.name}</td>
                                     <td className="p-4 text-gray-600 text-center">{category.description}</td>
                                     <td className="p-4 text-center">
-                                        <span className={`px-3 py-1 rounded-full text-sm ${(category.Quizzes?.length || 0) > 0 ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'}`}>
-                                            {category.Quizzes?.length || 0}
+                                        <span className={`px-3 py-1 rounded-full text-sm ${(quizCounts[category.name] || 0) > 0 ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'}`}>
+                                            {quizCounts[category.name] || 0}
                                         </span>
                                     </td>
                                     <td className="p-4">

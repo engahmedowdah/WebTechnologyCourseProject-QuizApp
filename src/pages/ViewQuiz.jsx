@@ -23,9 +23,9 @@ const ViewQuiz = () => {
     if (!quiz) return <div>جاري التحميل...</div>;
 
     const difficultyClass =
-        quiz.difficulty === 'سهل' ? 'bg-green-100 text-green-800' :
-            quiz.difficulty === 'متوسط' ? 'bg-yellow-100 text-yellow-800' :
-                'bg-red-100 text-red-800';
+        quiz.difficulty === 'سهل' ? 'bg-green-500 text-white' :
+            quiz.difficulty === 'متوسط' ? 'bg-yellow-500 text-white' :
+                'bg-red-500 text-white';
 
     return (
         <div className="max-w-4xl mx-auto space-y-6">
@@ -38,7 +38,7 @@ const ViewQuiz = () => {
                     </div>
                     <div className="border-b pb-3">
                         <span className="font-semibold">التصنيف: </span>
-                        <span>{quiz.categoryName}</span>
+                        <span>{quiz.category}</span>
                     </div>
                     <div className="border-b pb-3">
                         <span className="font-semibold">مستوى الصعوبة: </span>
@@ -57,27 +57,39 @@ const ViewQuiz = () => {
                     >
                         {showAnswers ? 'إخفاء الإجابات' : 'إظهار الإجابات'}
                     </button>
-                    <h3 className="text-xl font-bold">الأسئلة ({quiz.Questions?.length || 0})</h3>
+                    <h3 className="text-xl font-bold">الأسئلة ({quiz.questions?.length || 0})</h3>
                 </div>
 
-                {quiz.Questions?.map((q, index) => (
-                    <div key={q.id} className="bg-white rounded-lg shadow-md p-6">
-                        <h4 className="text-lg font-bold mb-4 text-right">{index + 1}. {q.text}</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {q.Answers?.map(a => (
-                                <div
-                                    key={a.id}
-                                    className={`p-3 rounded-lg border text-right ${showAnswers && a.isCorrect
-                                        ? 'bg-green-100 border-green-500 text-green-800 font-bold'
-                                        : 'bg-gray-50'
-                                        }`}
-                                >
-                                    {a.text}
-                                </div>
-                            ))}
+                {quiz.questions?.map((q, index) => {
+                    const questionDifficultyClass =
+                        q.difficulty === 'سهل' ? 'bg-green-500 text-white border-green-600' :
+                            q.difficulty === 'متوسط' ? 'bg-yellow-500 text-white border-yellow-600' :
+                                'bg-red-500 text-white border-red-600';
+
+                    return (
+                        <div key={index} className="bg-white rounded-lg shadow-md p-6">
+                            <div className="flex justify-between items-start mb-4">
+                                <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${questionDifficultyClass}`}>
+                                    {q.difficulty || 'متوسط'}
+                                </span>
+                                <h4 className="text-lg font-bold text-right flex-1 mr-4">{index + 1}. {q.question}</h4>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {q.options?.map((option, optIndex) => (
+                                    <div
+                                        key={optIndex}
+                                        className={`p-3 rounded-lg border text-right ${showAnswers && optIndex === q.correctAnswer
+                                            ? 'bg-green-100 border-green-500 text-green-800 font-bold'
+                                            : 'bg-gray-50'
+                                            }`}
+                                    >
+                                        {option}
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
 
             <div className="flex gap-4">

@@ -1,16 +1,180 @@
-# React + Vite
+# تطبيق الاختبارات التعليمية 📚
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+تطبيق ويب تفاعلي لإنشاء وإدارة الاختبارات التعليمية باستخدام React و Local Storage.
 
-Currently, two official plugins are available:
+## 🌟 المميزات
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- ✅ **إدارة كاملة للاختبارات** - إنشاء، تعديل، حذف، وعرض الاختبارات
+- ✅ **تصنيفات متعددة** - تنظيم الاختبارات حسب المواد الدراسية
+- ✅ **أسئلة فريدة** - نظام ذكي لضمان عدم تكرار الأسئلة
+- ✅ **مستويات صعوبة** - سهل، متوسط، صعب مع ألوان موحدة
+- ✅ **Local Storage** - لا حاجة لقاعدة بيانات خارجية
+- ✅ **واجهة عربية** - تصميم RTL كامل
+- ✅ **تصميم متجاوب** - يعمل على جميع الأجهزة
 
-## React Compiler
+## 🚀 رابط الموقع المباشر
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**[افتح التطبيق](https://engahmedowdah.github.io/WebTechnologyCourseProject-QuizApp/)**
 
-## Expanding the ESLint configuration
+## 📦 التثبيت والتشغيل محلياً
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### المتطلبات
+- Node.js (v16 أو أحدث)
+- npm أو yarn
+
+### خطوات التثبيت
+
+```bash
+# استنساخ المشروع
+git clone https://github.com/engahmedowdah/WebTechnologyCourseProject-QuizApp.git
+
+# الانتقال لمجلد المشروع
+cd WebTechnologyCourseProject-QuizApp
+
+# تثبيت المكتبات
+npm install
+
+# تشغيل المشروع
+npm run dev
+```
+
+سيعمل التطبيق على: `http://localhost:5173`
+
+## 🛠️ البناء للإنتاج
+
+```bash
+# بناء المشروع
+npm run build
+
+# معاينة البناء
+npm run preview
+```
+
+## 📱 كيفية الاستخدام
+
+### 1. إعادة تهيئة البيانات
+افتح: `http://localhost:5173/reset-data.html` لإعادة تهيئة البيانات بأسئلة جديدة
+
+### 2. تصفح التصنيفات
+- اختر التصنيف المطلوب (رياضيات، علوم، تاريخ، إلخ)
+- عرض جميع الاختبارات في التصنيف
+
+### 3. إنشاء اختبار جديد
+- اضغط على "إضافة اختبار"
+- أدخل العنوان والتصنيف ومستوى الصعوبة
+- أضف الأسئلة والإجابات
+
+### 4. أخذ الاختبار
+- اضغط على 🚀 لبدء الاختبار
+- أجب على الأسئلة
+- شاهد النتيجة النهائية
+
+## 🎨 التقنيات المستخدمة
+
+- **React 19** - مكتبة بناء الواجهات
+- **React Router** - التنقل بين الصفحات
+- **Tailwind CSS** - تصميم الواجهة
+- **Vite** - أداة البناء السريعة
+- **Local Storage API** - تخزين البيانات محلياً
+
+## 📂 هيكل المشروع
+
+```
+react-app/
+├── public/
+│   └── reset-data.html          # صفحة إعادة التهيئة
+├── src/
+│   ├── components/              # المكونات القابلة لإعادة الاستخدام
+│   ├── pages/                   # صفحات التطبيق
+│   │   ├── HomePage.jsx
+│   │   ├── Categories.jsx
+│   │   ├── QuizList.jsx
+│   │   ├── AddQuiz.jsx
+│   │   ├── ViewQuiz.jsx
+│   │   ├── UpdateQuiz.jsx
+│   │   └── TakeQuiz.jsx
+│   ├── services/
+│   │   ├── api.js              # واجهة API
+│   │   └── localStorage.js     # إدارة Local Storage
+│   └── App.jsx                 # المكون الرئيسي
+└── package.json
+```
+
+## 🎯 المميزات التقنية
+
+### نظام الأسئلة الفريدة
+يستخدم التطبيق `Set` للتأكد من عدم تكرار الأسئلة:
+
+```javascript
+const shuffleAndTakeUnique = (arr, count) => {
+    const unique = [];
+    const usedQuestions = new Set();
+    
+    for (const item of shuffled) {
+        if (!usedQuestions.has(item.q)) {
+            unique.push(item);
+            usedQuestions.add(item.q);
+        }
+    }
+    return unique;
+};
+```
+
+### ألوان الصعوبة الموحدة
+- 🟢 **سهل**: `bg-green-500 text-white`
+- 🟡 **متوسط**: `bg-yellow-500 text-white`
+- 🔴 **صعب**: `bg-red-500 text-white`
+
+## 📝 إضافة أسئلة جديدة
+
+يمكنك إضافة أسئلة جديدة في ملف `src/services/localStorage.js`:
+
+```javascript
+const questionBank = {
+    'الرياضيات': [
+        { 
+            q: 'ما هو ناتج 5 × 6؟', 
+            opts: ['25', '30', '35', '40'], 
+            ans: 1, 
+            diff: 'سهل' 
+        },
+        // أضف المزيد...
+    ]
+};
+```
+
+## 🤝 المساهمة
+
+المساهمات مرحب بها! يرجى:
+1. Fork المشروع
+2. إنشاء branch جديد (`git checkout -b feature/AmazingFeature`)
+3. Commit التغييرات (`git commit -m 'Add some AmazingFeature'`)
+4. Push للـ branch (`git push origin feature/AmazingFeature`)
+5. فتح Pull Request
+
+## 📄 الترخيص
+
+هذا المشروع مفتوح المصدر ومتاح للاستخدام التعليمي.
+
+## 👨‍💻 المطور
+
+**Ahmed Alghamdi**
+- GitHub: [@engahmedowdah](https://github.com/engahmedowdah)
+- المشروع: Web Technology Course Project
+
+## 🙏 شكر وتقدير
+
+- جامعة الباحة - كلية علوم الحاسب
+- مقرر تقنيات الويب 2
+
+---
+
+**ملاحظة:** هذا المشروع تم تطويره كجزء من متطلبات مقرر تقنيات الويب في جامعة الباحة.
+
+## 📞 الدعم
+
+إذا واجهت أي مشاكل أو لديك اقتراحات، يرجى فتح [Issue](https://github.com/engahmedowdah/WebTechnologyCourseProject-QuizApp/issues) على GitHub.
+
+---
+
+Made with ❤️ by Ahmed Alghamdi

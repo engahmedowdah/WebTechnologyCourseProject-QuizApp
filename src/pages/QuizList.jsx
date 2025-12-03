@@ -121,9 +121,9 @@ const QuizList = () => {
                         <tbody>
                             {displayedQuizzes.map(quiz => {
                                 const difficultyClass =
-                                    quiz.difficulty === 'سهل' ? 'bg-green-100 text-green-800' :
-                                        quiz.difficulty === 'متوسط' ? 'bg-yellow-100 text-yellow-800' :
-                                            'bg-red-100 text-red-800';
+                                    quiz.difficulty === 'سهل' ? 'bg-green-500 text-white' :
+                                        quiz.difficulty === 'متوسط' ? 'bg-yellow-500 text-white' :
+                                            'bg-red-500 text-white';
 
                                 return (
                                     <tr key={quiz.id} className="border-t hover:bg-gray-50">
@@ -140,8 +140,8 @@ const QuizList = () => {
                                                 {quiz.difficulty}
                                             </span>
                                         </td>
-                                        <td className="p-4 text-center">{quiz.Questions?.length || 0}</td>
-                                        <td className="p-4 text-center">{quiz.categoryName}</td>
+                                        <td className="p-4 text-center">{quiz.questions?.length || 0}</td>
+                                        <td className="p-4 text-center">{quiz.category}</td>
                                         <td className="p-4 font-semibold text-center">{quiz.title}</td>
                                     </tr>
                                 );

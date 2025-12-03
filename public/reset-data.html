@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إعادة تهيئة البيانات</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        h1 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 10px;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+        .btn:active {
+            transform: translateY(0);
+        }
+        .btn-secondary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        .success {
+            color: #10b981;
+            font-weight: bold;
+            margin-top: 20px;
+            display: none;
+        }
+        .warning {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #92400e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 إعادة تهيئة بيانات الاختبارات</h1>
+        
+        <div class="warning">
+            <strong>⚠️ تنبيه:</strong> هذه العملية ستقوم بحذف جميع البيانات الحالية وإنشاء بيانات جديدة بأسئلة فريدة بدون تكرار.
+        </div>
+        
+        <p>
+            سيتم إنشاء اختبارات جديدة مع أسئلة مختلفة تماماً بدون أي تكرار.
+            <br>
+            الألوان الجديدة للصعوبة:
+            <br>
+            <span style="background: #10b981; color: white; padding: 5px 15px; border-radius: 20px; margin: 5px;">سهل</span>
+            <span style="background: #eab308; color: white; padding: 5px 15px; border-radius: 20px; margin: 5px;">متوسط</span>
+            <span style="background: #ef4444; color: white; padding: 5px 15px; border-radius: 20px; margin: 5px;">صعب</span>
+        </p>
+        
+        <button class="btn" onclick="resetData()">إعادة تهيئة البيانات</button>
+        <button class="btn btn-secondary" onclick="goToApp()">الذهاب للتطبيق</button>
+        
+        <div class="success" id="success">
+            ✅ تم إعادة تهيئة البيانات بنجاح! يمكنك الآن الذهاب للتطبيق.
+        </div>
+    </div>
+
+    <script>
+        function resetData() {
+            // Clear localStorage
+            localStorage.removeItem('quiz_app_categories');
+            localStorage.removeItem('quiz_app_quizzes');
+            
+            // Show success message
+            document.getElementById('success').style.display = 'block';
+            
+            // Reload after 1 second to reinitialize data
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
+        }
+        
+        function goToApp() {
+            window.location.href = 'http://localhost:5173';
+        }
+    </script>
+</body>
+</html>
