@@ -134,43 +134,43 @@ const ManageCategories = () => {
                 onConfirm={modalConfig.onConfirm}
             />
 
-            <div className="bg-white rounded-lg shadow-md p-8 mb-8">
-                <h2 className="text-2xl font-bold mb-6 text-right">
+            <div className="bg-white rounded-lg shadow-md p-4 md:p-8 mb-6 md:mb-8">
+                <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-right">
                     {editingId ? 'تعديل التصنيف' : 'إضافة تصنيف جديد'}
                 </h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label className="block text-gray-700 mb-2 text-right">اسم التصنيف</label>
+                        <label className="block text-gray-700 mb-2 text-right text-sm md:text-base">اسم التصنيف</label>
                         <input
                             type="text"
                             value={formData.name}
                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                            className="w-full p-3 border rounded-lg text-right"
+                            className="w-full p-3 border rounded-lg text-right text-sm md:text-base"
                             required
                         />
                     </div>
                     <div>
-                        <label className="block text-gray-700 mb-2 text-right">الوصف</label>
+                        <label className="block text-gray-700 mb-2 text-right text-sm md:text-base">الوصف</label>
                         <textarea
                             value={formData.description}
                             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                            className="w-full p-3 border rounded-lg text-right"
+                            className="w-full p-3 border rounded-lg text-right text-sm md:text-base"
                             rows="3"
                         />
                     </div>
-                    <div className="flex gap-2 justify-end">
+                    <div className="flex flex-col-reverse sm:flex-row gap-2 justify-end">
                         {editingId && (
                             <button
                                 type="button"
                                 onClick={handleCancelEdit}
-                                className="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition cursor-pointer"
+                                className="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition cursor-pointer min-h-[44px] text-sm md:text-base"
                             >
                                 إلغاء
                             </button>
                         )}
                         <button
                             type="submit"
-                            className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition cursor-pointer"
+                            className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition cursor-pointer min-h-[44px] text-sm md:text-base"
                         >
                             {editingId ? 'حفظ التغييرات' : 'إضافة التصنيف'}
                         </button>
@@ -178,40 +178,40 @@ const ManageCategories = () => {
                 </form>
             </div>
 
-            <div className="bg-white rounded-lg shadow-md p-8">
-                <h2 className="text-2xl font-bold mb-6 text-right">قائمة التصنيفات</h2>
+            <div className="bg-white rounded-lg shadow-md p-4 md:p-8">
+                <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-right">قائمة التصنيفات</h2>
                 <div className="overflow-x-auto">
-                    <table className="w-full text-right">
+                    <table className="w-full text-right min-w-[600px]">
                         <thead className="bg-gray-50">
                             <tr>
-                                <th className="p-4 border-b text-center">اسم التصنيف</th>
-                                <th className="p-4 border-b text-center">الوصف</th>
-                                <th className="p-4 border-b text-center">عدد الاختبارات</th>
-                                <th className="p-4 border-b text-center">الإجراءات</th>
+                                <th className="p-3 md:p-4 border-b text-center text-sm md:text-base">اسم التصنيف</th>
+                                <th className="p-3 md:p-4 border-b text-center text-sm md:text-base">الوصف</th>
+                                <th className="p-3 md:p-4 border-b text-center text-sm md:text-base">عدد الاختبارات</th>
+                                <th className="p-3 md:p-4 border-b text-center text-sm md:text-base">الإجراءات</th>
                             </tr>
                         </thead>
                         <tbody>
                             {categories.map(category => (
                                 <tr key={category.id} className="border-t hover:bg-gray-50">
-                                    <td className="p-4 font-semibold text-center">{category.name}</td>
-                                    <td className="p-4 text-gray-600 text-center">{category.description}</td>
-                                    <td className="p-4 text-center">
-                                        <span className={`px-3 py-1 rounded-full text-sm ${(quizCounts[category.name] || 0) > 0 ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'}`}>
+                                    <td className="p-3 md:p-4 font-semibold text-center text-sm md:text-base">{category.name}</td>
+                                    <td className="p-3 md:p-4 text-gray-600 text-center text-sm md:text-base">{category.description}</td>
+                                    <td className="p-3 md:p-4 text-center">
+                                        <span className={`px-2 md:px-3 py-1 rounded-full text-xs md:text-sm ${(quizCounts[category.name] || 0) > 0 ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'}`}>
                                             {quizCounts[category.name] || 0}
                                         </span>
                                     </td>
-                                    <td className="p-4">
-                                        <div className="flex gap-2 justify-center">
+                                    <td className="p-3 md:p-4">
+                                        <div className="flex gap-2 justify-center flex-wrap">
                                             <button
                                                 onClick={() => handleEdit(category)}
-                                                className="text-blue-600 hover:text-blue-800 cursor-pointer"
+                                                className="text-blue-600 hover:text-blue-800 cursor-pointer text-lg md:text-xl"
                                                 title="Update"
                                             >
                                                 ✏️
                                             </button>
                                             <Link
                                                 to={`/quizzes?category=${encodeURIComponent(category.name)}`}
-                                                className="text-purple-600 hover:text-purple-800 cursor-pointer"
+                                                className="text-purple-600 hover:text-purple-800 cursor-pointer text-lg md:text-xl"
                                                 title="Show Details"
                                             >
                                                 👁️
@@ -219,13 +219,13 @@ const ManageCategories = () => {
                                             {category.canDelete ? (
                                                 <button
                                                     onClick={() => handleDelete(category.id)}
-                                                    className="text-red-600 hover:text-red-800 cursor-pointer"
+                                                    className="text-red-600 hover:text-red-800 cursor-pointer text-lg md:text-xl"
                                                     title="Delete"
                                                 >
                                                     🗑️
                                                 </button>
                                             ) : (
-                                                <span className="text-gray-400 cursor-not-allowed" title="Cannot delete: Linked to quizzes">
+                                                <span className="text-gray-400 cursor-not-allowed text-lg md:text-xl" title="Cannot delete: Linked to quizzes">
                                                     🔒
                                                 </span>
                                             )}

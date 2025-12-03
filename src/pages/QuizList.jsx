@@ -83,39 +83,39 @@ const QuizList = () => {
                 onConfirm={modalConfig.onConfirm}
             />
 
-            <div className="flex justify-between items-center flex-wrap gap-4">
-                <h2 className="text-2xl font-bold">
+            <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 md:gap-4">
+                <h2 className="text-xl md:text-2xl font-bold">
                     {!category || category === 'all' ? 'جميع الاختبارات' : `اختبارات ${category}`}
                 </h2>
-                <div className="flex gap-2">
-                    <Link to="/manage-categories" className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+                <div className="flex flex-col sm:flex-row gap-2">
+                    <Link to="/manage-categories" className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 text-center min-h-[44px] flex items-center justify-center text-sm md:text-base">
                         إدارة التصنيفات
                     </Link>
-                    <Link to="/categories" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700">
+                    <Link to="/categories" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700 text-center min-h-[44px] flex items-center justify-center text-sm md:text-base">
                         تغيير التصنيف
                     </Link>
                 </div>
             </div>
 
             {quizzes.length === 0 ? (
-                <div className="bg-white rounded-lg shadow-md p-12 text-center">
-                    <div className="text-6xl mb-4">📭</div>
-                    <h3 className="text-xl font-bold text-gray-800 mb-2">لا توجد اختبارات في هذا التصنيف</h3>
-                    <p className="text-gray-600 mb-6">لم يتم إضافة أي اختبارات هنا بعد. كن أول من يضيف اختباراً!</p>
-                    <Link to={`/add?category=${encodeURIComponent(category || '')}`} className="inline-block bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                <div className="bg-white rounded-lg shadow-md p-8 md:p-12 text-center">
+                    <div className="text-5xl md:text-6xl mb-4">📭</div>
+                    <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-2">لا توجد اختبارات في هذا التصنيف</h3>
+                    <p className="text-sm md:text-base text-gray-600 mb-6">لم يتم إضافة أي اختبارات هنا بعد. كن أول من يضيف اختباراً!</p>
+                    <Link to={`/add?category=${encodeURIComponent(category || '')}`} className="inline-block bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5 min-h-[44px] text-sm md:text-base">
                         إضافة اختبار جديد ✨
                     </Link>
                 </div>
             ) : (
                 <div className="bg-white rounded-lg shadow-md overflow-x-auto">
-                    <table className="w-full text-right">
+                    <table className="w-full text-right min-w-[600px]">
                         <thead className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
                             <tr>
-                                <th className="p-4 text-center">العمليات</th>
-                                <th className="p-4 text-center">الصعوبة</th>
-                                <th className="p-4 text-center">عدد الأسئلة</th>
-                                <th className="p-4 text-center">التصنيف</th>
-                                <th className="p-4 text-center">العنوان</th>
+                                <th className="p-3 md:p-4 text-center text-sm md:text-base">العمليات</th>
+                                <th className="p-3 md:p-4 text-center text-sm md:text-base">الصعوبة</th>
+                                <th className="p-3 md:p-4 text-center text-sm md:text-base">عدد الأسئلة</th>
+                                <th className="p-3 md:p-4 text-center text-sm md:text-base">التصنيف</th>
+                                <th className="p-3 md:p-4 text-center text-sm md:text-base">العنوان</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -127,22 +127,22 @@ const QuizList = () => {
 
                                 return (
                                     <tr key={quiz.id} className="border-t hover:bg-gray-50">
-                                        <td className="p-4 text-center">
-                                            <div className="flex gap-2 justify-center">
-                                                <Link to={`/quiz/${quiz.id}/take`} className="text-purple-600 hover:text-purple-800 cursor-pointer" title="Start Quiz">🚀</Link>
-                                                <Link to={`/quiz/${quiz.id}`} className="text-blue-600 hover:text-blue-800 cursor-pointer" title="Show Details">👁️</Link>
-                                                <Link to={`/quiz/${quiz.id}/edit`} className="text-green-600 hover:text-green-800 cursor-pointer" title="Update">✏️</Link>
-                                                <button onClick={() => confirmDelete(quiz.id)} className="text-red-600 hover:text-red-800 cursor-pointer" title="Delete">🗑️</button>
+                                        <td className="p-3 md:p-4 text-center">
+                                            <div className="flex gap-2 justify-center flex-wrap">
+                                                <Link to={`/quiz/${quiz.id}/take`} className="text-purple-600 hover:text-purple-800 cursor-pointer text-lg md:text-xl" title="Start Quiz">🚀</Link>
+                                                <Link to={`/quiz/${quiz.id}`} className="text-blue-600 hover:text-blue-800 cursor-pointer text-lg md:text-xl" title="Show Details">👁️</Link>
+                                                <Link to={`/quiz/${quiz.id}/edit`} className="text-green-600 hover:text-green-800 cursor-pointer text-lg md:text-xl" title="Update">✏️</Link>
+                                                <button onClick={() => confirmDelete(quiz.id)} className="text-red-600 hover:text-red-800 cursor-pointer text-lg md:text-xl" title="Delete">🗑️</button>
                                             </div>
                                         </td>
-                                        <td className="p-4 text-center">
-                                            <span className={`px-3 py-1 rounded-full text-sm ${difficultyClass}`}>
+                                        <td className="p-3 md:p-4 text-center">
+                                            <span className={`px-2 md:px-3 py-1 rounded-full text-xs md:text-sm ${difficultyClass}`}>
                                                 {quiz.difficulty}
                                             </span>
                                         </td>
-                                        <td className="p-4 text-center">{quiz.questions?.length || 0}</td>
-                                        <td className="p-4 text-center">{quiz.category}</td>
-                                        <td className="p-4 font-semibold text-center">{quiz.title}</td>
+                                        <td className="p-3 md:p-4 text-center text-sm md:text-base">{quiz.questions?.length || 0}</td>
+                                        <td className="p-3 md:p-4 text-center text-sm md:text-base">{quiz.category}</td>
+                                        <td className="p-3 md:p-4 font-semibold text-center text-sm md:text-base">{quiz.title}</td>
                                     </tr>
                                 );
                             })}
@@ -153,7 +153,7 @@ const QuizList = () => {
 
             {quizzes.length > displayCount && (
                 <div className="text-center">
-                    <button onClick={handleLoadMore} className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700">
+                    <button onClick={handleLoadMore} className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700 min-h-[44px] text-sm md:text-base">
                         عرض المزيد
                     </button>
                 </div>
