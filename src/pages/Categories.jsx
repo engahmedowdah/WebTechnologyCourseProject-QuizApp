@@ -13,14 +13,11 @@ const Categories = () => {
 
     const loadData = async () => {
         try {
-            // Load categories
             const categoriesData = await api.getCategories();
             setCategories(categoriesData);
 
-            // Load all quizzes to count them per category
             const quizzesData = await api.getQuizzes();
 
-            // Count quizzes per category
             const counts = {};
             quizzesData.forEach(quiz => {
                 counts[quiz.category] = (counts[quiz.category] || 0) + 1;

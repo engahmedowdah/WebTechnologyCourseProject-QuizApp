@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "homepage": "https://engahmedowdah.github.io/WebTechnologyCourseProject-QuizApp",
+  "homepage": "https://engahmedowdah.github.io/QuizApp",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

@@ -1,8 +1,5 @@
-// LocalStorage service for managing categories and quizzes
-// Implements auto-increment IDs (last ID + 1)
-
-const CATEGORIES_KEY = 'quiz_app_categories';
-const QUIZZES_KEY = 'quiz_app_quizzes';
+const CATEGORIES_KEY = 'quiz_categories';
+const QUIZZES_KEY = 'quiz_quizzes';
 
 // مكتبة الأسئلة المتخصصة مع مستويات صعوبة مختلفة
 const questionBank = {
@@ -265,8 +262,7 @@ const shuffleAndTakeUnique = (arr, count) => {
     return unique;
 };
 
-// Initialize default data if not exists
-const initializeData = () => {
+const initializeDefaultData = () => {
     if (!localStorage.getItem(CATEGORIES_KEY)) {
         const defaultCategories = [
             { id: 1, name: 'العلوم', description: 'اختبارات في مجال العلوم الطبيعية' },
@@ -289,9 +285,7 @@ const initializeData = () => {
         const defaultQuizzes = [];
         let quizId = 1;
 
-        // Define quiz counts for each category (all categories now have quizzes)
         const quizCounts = [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10];
-        // Define question counts pattern
         const questionCounts = [5, 10, 15, 20, 5];
 
         const categories = [
@@ -323,23 +317,19 @@ const initializeData = () => {
     }
 };
 
-// Helper function to get next ID (auto-increment)
 const getNextId = (items) => {
     if (!items || items.length === 0) return 1;
     const maxId = Math.max(...items.map(item => item.id || 0));
     return maxId + 1;
 };
 
-// Categories CRUD operations
 export const localStorageService = {
-    // Initialize data on first use
-    init: () => {
-        initializeData();
+    initializeData: () => {
+        initializeDefaultData();
     },
 
-    // Categories
     getCategories: () => {
-        initializeData();
+        initializeDefaultData();
         const data = localStorage.getItem(CATEGORIES_KEY);
         return data ? JSON.parse(data) : [];
     },
@@ -379,7 +369,6 @@ export const localStorageService = {
 
         localStorage.setItem(CATEGORIES_KEY, JSON.stringify(filteredCategories));
 
-        // Also delete all quizzes in this category
         const quizzes = localStorageService.getQuizzes();
         const categoryName = categories.find(cat => cat.id === parseInt(id))?.name;
         if (categoryName) {
@@ -390,9 +379,8 @@ export const localStorageService = {
         return true;
     },
 
-    // Quizzes
     getQuizzes: (category = null) => {
-        initializeData();
+        initializeDefaultData();
         const data = localStorage.getItem(QUIZZES_KEY);
         const quizzes = data ? JSON.parse(data) : [];
 
@@ -447,13 +435,11 @@ export const localStorageService = {
         return true;
     },
 
-    // Utility function to clear all data (for testing)
     clearAll: () => {
         localStorage.removeItem(CATEGORIES_KEY);
         localStorage.removeItem(QUIZZES_KEY);
-        initializeData();
+        initializeDefaultData();
     }
 };
 
-// Initialize on module load
-localStorageService.init();
+initializeDefaultData();

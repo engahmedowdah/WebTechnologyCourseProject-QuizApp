@@ -1,11 +1,7 @@
-// LocalStorage-based API service
-// No backend required - all data stored in browser LocalStorage
 import { localStorageService } from './localStorage.js';
 
 export const api = {
-    // Categories
     getCategories: async () => {
-        // Simulate async behavior for consistency
         return Promise.resolve(localStorageService.getCategories());
     },
 
@@ -36,7 +32,6 @@ export const api = {
         }
     },
 
-    // Quizzes
     getQuizzes: async (category) => {
         return Promise.resolve(localStorageService.getQuizzes(category));
     },

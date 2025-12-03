@@ -22,20 +22,16 @@ const ManageCategories = () => {
 
     const loadCategories = async () => {
         try {
-            // Load categories
             const categoriesData = await api.getCategories();
 
-            // Load all quizzes to count them per category
             const quizzesData = await api.getQuizzes();
 
-            // Count quizzes per category
             const counts = {};
             quizzesData.forEach(quiz => {
                 counts[quiz.category] = (counts[quiz.category] || 0) + 1;
             });
             setQuizCounts(counts);
 
-            // Add canDelete property based on quiz count
             const categoriesWithCanDelete = categoriesData.map(cat => ({
                 ...cat,
                 canDelete: (counts[cat.name] || 0) === 0

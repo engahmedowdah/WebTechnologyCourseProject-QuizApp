@@ -32,7 +32,6 @@ const AddQuiz = () => {
         const data = await api.getCategories();
         setCategories(data);
         if (preselectedCategory) {
-            // Verify if the preselected category exists in the loaded data
             const exists = data.some(cat => cat.name === preselectedCategory);
             if (exists) {
                 setFormData(prev => ({ ...prev, categoryName: preselectedCategory }));
@@ -149,7 +148,6 @@ const AddQuiz = () => {
                 message: 'تم إضافة الاختبار الجديد بنجاح!',
                 type: 'success'
             });
-            // Delay navigation to show success message
             setTimeout(() => navigate('/quizzes'), 1500);
         } catch (error) {
             console.error(error);

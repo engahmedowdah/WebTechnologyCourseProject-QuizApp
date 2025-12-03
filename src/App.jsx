@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -14,7 +14,7 @@ import './styles/global.css';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/QuizApp">
       <div className="min-h-screen flex flex-col bg-gray-50 font-sans" dir="rtl">
         <Header />
         <main className="container mx-auto px-4 py-8 flex-1">
@@ -27,6 +27,7 @@ function App() {
             <Route path="/quiz/:id" element={<ViewQuiz />} />
             <Route path="/quiz/:id/take" element={<TakeQuiz />} />
             <Route path="/quiz/:id/edit" element={<UpdateQuiz />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
         <Footer />

@@ -78,7 +78,6 @@ const TakeQuiz = () => {
     const question = quiz.questions?.[currentQuestion];
     const progress = ((currentQuestion + 1) / (quiz.questions?.length || 1)) * 100;
 
-    // Check if question exists
     if (!question) {
         return (
             <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-8 text-center">
