@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const path = require('path');
 const { sequelize } = require('./models');
 const categoryRoutes = require('./routes/categories');
 const quizRoutes = require('./routes/quizzes');
@@ -19,6 +20,16 @@ app.use('/api/quizzes', quizRoutes);
 app.get('/health', (req, res) => {
     res.json({ status: 'OK', database: 'SQLite/Sequelize' });
 });
+
+// Serve static files from dist folder in production
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../dist')));
+
+    // Catch-all route to serve index.html for React Router
+    app.use((req, res) => {
+        res.sendFile(path.join(__dirname, '../dist/index.html'));
+    });
+}
 
 // Sync database and start server
 sequelize.sync({ alter: false })
