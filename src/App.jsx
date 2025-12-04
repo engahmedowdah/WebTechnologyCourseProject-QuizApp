@@ -14,7 +14,7 @@ import './styles/global.css';
 
 function App() {
   return (
-    <Router basename="/QuizApp">
+    <Router basename="/WebTechnologyCourseProject-QuizApp">
       <div className="min-h-screen flex flex-col bg-gray-50 font-sans" dir="rtl">
         <Header />
         <main className="container mx-auto px-4 py-8 flex-1">
