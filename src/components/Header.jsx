@@ -32,7 +32,7 @@ const Header = () => {
                             إضافة اختبار
                         </Link>
                     </nav>
-                    <button onClick={toggleMobileMenu} className="md:hidden hover:bg-white hover:bg-opacity-20 p-2 rounded-lg min-h-[44px] min-w-[44px] flex items-center justify-center">
+                    <button onClick={toggleMobileMenu} className="md:hidden p-2 rounded-lg min-h-[44px] min-w-[44px] flex items-center justify-center cursor-pointer">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
@@ -40,16 +40,16 @@ const Header = () => {
                 </div>
                 {isMobileMenuOpen && (
                     <nav id="mobileMenu" className="md:hidden mt-4 pb-4 space-y-2 border-t border-white border-opacity-20 pt-4">
-                        <Link to="/" onClick={toggleMobileMenu} className="block w-full text-right px-4 py-3 rounded-lg hover:bg-opacity-30 transition min-h-[44px] bg-white/20">
+                        <Link to="/" onClick={toggleMobileMenu} className="block w-full text-right px-4 py-3 rounded-lg hover:brightness-110 transition min-h-[44px]" style={{ backgroundColor: 'oklch(48.8% 0.243 264.376)' }}>
                             الرئيسية
                         </Link>
-                        <Link to="/categories" onClick={toggleMobileMenu} className="block w-full text-right px-4 py-3 rounded-lg hover:bg-opacity-30 transition min-h-[44px] bg-white/20">
+                        <Link to="/categories" onClick={toggleMobileMenu} className="block w-full text-right px-4 py-3 rounded-lg hover:brightness-110 transition min-h-[44px]" style={{ backgroundColor: 'oklch(48.8% 0.243 264.376)' }}>
                             الاختبارات
                         </Link>
-                        <Link to="/manage-categories" onClick={toggleMobileMenu} className="block w-full text-right px-4 py-3 rounded-lg hover:bg-opacity-30 transition min-h-[44px] bg-white/20">
+                        <Link to="/manage-categories" onClick={toggleMobileMenu} className="block w-full text-right px-4 py-3 rounded-lg hover:brightness-110 transition min-h-[44px]" style={{ backgroundColor: 'oklch(48.8% 0.243 264.376)' }}>
                             إدارة التصنيفات
                         </Link>
-                        <Link to="/add" onClick={toggleMobileMenu} className="block w-full text-right px-4 py-3 rounded-lg hover:bg-opacity-30 transition min-h-[44px] bg-white/20">
+                        <Link to="/add" onClick={toggleMobileMenu} className="block w-full text-right px-4 py-3 rounded-lg hover:brightness-110 transition min-h-[44px]" style={{ backgroundColor: 'oklch(48.8% 0.243 264.376)' }}>
                             إضافة اختبار
                         </Link>
                     </nav>
