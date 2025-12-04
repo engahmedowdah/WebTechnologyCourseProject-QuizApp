@@ -40,16 +40,16 @@ const Header = () => {
                 </div>
                 {isMobileMenuOpen && (
                     <nav id="mobileMenu" className="md:hidden mt-4 pb-4 space-y-2 border-t border-white border-opacity-20 pt-4">
-                        <Link to="/" onClick={toggleMobileMenu} className="block w-full text-right px-4 py-3 rounded-lg hover:bg-opacity-30 transition min-h-[44px]" style={{ backgroundColor: 'rgba(123, 123, 123, 0.2)' }}>
+                        <Link to="/" onClick={toggleMobileMenu} className="block w-full text-right px-4 py-3 rounded-lg hover:bg-opacity-30 transition min-h-[44px] bg-white/20">
                             الرئيسية
                         </Link>
-                        <Link to="/categories" onClick={toggleMobileMenu} className="block w-full text-right px-4 py-3 rounded-lg hover:bg-opacity-30 transition min-h-[44px]" style={{ backgroundColor: 'rgba(123, 123, 123, 0.2)' }}>
+                        <Link to="/categories" onClick={toggleMobileMenu} className="block w-full text-right px-4 py-3 rounded-lg hover:bg-opacity-30 transition min-h-[44px] bg-white/20">
                             الاختبارات
                         </Link>
-                        <Link to="/manage-categories" onClick={toggleMobileMenu} className="block w-full text-right px-4 py-3 rounded-lg hover:bg-opacity-30 transition min-h-[44px]" style={{ backgroundColor: 'rgba(123, 123, 123, 0.2)' }}>
+                        <Link to="/manage-categories" onClick={toggleMobileMenu} className="block w-full text-right px-4 py-3 rounded-lg hover:bg-opacity-30 transition min-h-[44px] bg-white/20">
                             إدارة التصنيفات
                         </Link>
-                        <Link to="/add" onClick={toggleMobileMenu} className="block w-full text-right px-4 py-3 rounded-lg hover:bg-opacity-30 transition min-h-[44px]" style={{ backgroundColor: 'rgba(123, 123, 123, 0.2)' }}>
+                        <Link to="/add" onClick={toggleMobileMenu} className="block w-full text-right px-4 py-3 rounded-lg hover:bg-opacity-30 transition min-h-[44px] bg-white/20">
                             إضافة اختبار
                         </Link>
                     </nav>
