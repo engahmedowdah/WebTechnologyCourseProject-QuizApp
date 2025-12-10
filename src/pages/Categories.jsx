@@ -9,6 +9,17 @@ const Categories = () => {
 
     useEffect(() => {
         loadData();
+
+        // Reload data when user returns to this page
+        const handleFocus = () => {
+            loadData();
+        };
+
+        window.addEventListener('focus', handleFocus);
+
+        return () => {
+            window.removeEventListener('focus', handleFocus);
+        };
     }, []);
 
     const loadData = async () => {

@@ -18,6 +18,17 @@ const ManageCategories = () => {
 
     useEffect(() => {
         loadCategories();
+
+        // Reload categories when user returns to this page
+        const handleFocus = () => {
+            loadCategories();
+        };
+
+        window.addEventListener('focus', handleFocus);
+
+        return () => {
+            window.removeEventListener('focus', handleFocus);
+        };
     }, []);
 
     const loadCategories = async () => {

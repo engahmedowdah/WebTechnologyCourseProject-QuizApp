@@ -21,6 +21,17 @@ const QuizList = () => {
 
     useEffect(() => {
         loadQuizzes();
+
+        // Reload quizzes when user returns to this page
+        const handleFocus = () => {
+            loadQuizzes();
+        };
+
+        window.addEventListener('focus', handleFocus);
+
+        return () => {
+            window.removeEventListener('focus', handleFocus);
+        };
     }, [category]);
 
     const loadQuizzes = async () => {
