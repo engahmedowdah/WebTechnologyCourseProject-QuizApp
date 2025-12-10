@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+@layer base {
+  html {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 16px;
+  }
+
+  body {
+    @apply bg-gray-50;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  * {
+    @apply transition-colors duration-200;
+  }
+}
+
+@layer utilities {
+  .responsive-text-sm {
+    @apply text-xs sm:text-sm md:text-base;
+  }
+
+  .responsive-text-base {
+    @apply text-sm sm:text-base md:text-lg;
+  }
+
+  .responsive-text-lg {
+    @apply text-base sm:text-lg md:text-xl;
+  }
+
+  .responsive-text-xl {
+    @apply text-lg sm:text-xl md:text-2xl;
+  }
+
+  .responsive-text-2xl {
+    @apply text-xl sm:text-2xl md:text-3xl;
+  }
+
+  .responsive-text-3xl {
+    @apply text-2xl sm:text-3xl md:text-4xl;
+  }
+
+  .responsive-text-4xl {
+    @apply text-2xl sm:text-3xl md:text-5xl;
+  }
+
+  .responsive-padding {
+    @apply px-3 py-4 sm:px-4 sm:py-6 md:px-8 md:py-12;
+  }
+
+  .responsive-padding-sm {
+    @apply px-3 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4;
+  }
+
+  .responsive-margin {
+    @apply mx-2 my-3 sm:mx-4 sm:my-4 md:mx-auto md:my-6;
+  }
+
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+
+  .mobile-card {
+    @apply p-3 sm:p-4 md:p-6 rounded-lg shadow-md;
+  }
+
+  .mobile-input {
+    @apply text-base px-3 py-2.5 sm:px-4 sm:py-3;
+  }
+
+  .mobile-button {
+    @apply text-sm sm:text-base px-4 py-2.5 sm:px-6 sm:py-3 min-h-[44px];
+  }
+}

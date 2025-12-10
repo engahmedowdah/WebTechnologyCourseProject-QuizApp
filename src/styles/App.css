@@ -1,0 +1,143 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+  padding: 12px;
+}
+
+@media (min-width: 640px) {
+  main {
+    padding: 16px;
+  }
+}
+
+@media (min-width: 768px) {
+  main {
+    padding: 20px;
+  }
+}
+
+.header {
+  background-color: #282c34;
+  padding: 16px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .header {
+    padding: 20px;
+  }
+}
+
+.header nav ul {
+  list-style: none;
+  display: flex;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+}
+
+@media (min-width: 1024px) {
+  .header nav ul {
+    gap: 20px;
+  }
+}
+
+.header nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  .header nav a {
+    font-size: 16px;
+  }
+}
+
+.header nav a:hover {
+  text-decoration: underline;
+}
+
+.footer {
+  background-color: #282c34;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  .footer {
+    font-size: 16px;
+  }
+}
+
+.page-content {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 8px;
+}
+
+@media (min-width: 640px) {
+  .page-content {
+    max-width: 640px;
+    padding: 0 16px;
+  }
+}
+
+@media (min-width: 768px) {
+  .page-content {
+    max-width: 800px;
+  }
+}
+
+.table-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 -8px;
+  padding: 0 8px;
+}
+
+@media (min-width: 768px) {
+  .table-container {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+table {
+  min-width: 600px;
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  table {
+    min-width: 100%;
+    font-size: 16px;
+  }
+}
+
+input,
+textarea,
+select {
+  font-size: 16px !important;
+}
+
+button {
+  font-size: 14px;
+}
+
+@media (min-width: 640px) {
+  button {
+    font-size: 16px;
+  }
+}

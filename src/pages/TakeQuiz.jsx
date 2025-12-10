@@ -1,0 +1,153 @@
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { api } from '../services/api';
+
+const TakeQuiz = () => {
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const [quiz, setQuiz] = useState(null);
+    const [currentQuestion, setCurrentQuestion] = useState(0);
+    const [answers, setAnswers] = useState({});
+    const [showResult, setShowResult] = useState(false);
+    const [score, setScore] = useState(0);
+
+    useEffect(() => {
+        loadQuiz();
+    }, [id]);
+
+    const loadQuiz = async () => {
+        try {
+            const data = await api.getQuiz(id);
+            setQuiz(data);
+        } catch (error) {
+            console.error('Failed to load quiz', error);
+        }
+    };
+
+    const handleAnswerSelect = (questionIndex, answerIndex) => {
+        setAnswers(prev => ({
+            ...prev,
+            [questionIndex]: answerIndex
+        }));
+    };
+
+    const handleNext = () => {
+        if (currentQuestion < (quiz.questions?.length || 0) - 1) {
+            setCurrentQuestion(prev => prev + 1);
+        } else {
+            calculateScore();
+        }
+    };
+
+    const calculateScore = () => {
+        let correctCount = 0;
+        quiz.questions?.forEach((q, index) => {
+            const selectedAnswerIndex = answers[index];
+            if (selectedAnswerIndex === q.correctAnswer) {
+                correctCount++;
+            }
+        });
+        setScore(correctCount);
+        setShowResult(true);
+    };
+
+    if (!quiz) return <div className="text-center p-8 text-base">جاري التحميل...</div>;
+
+    if (showResult) {
+        return (
+            <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-5 sm:p-6 md:p-8 text-center">
+                <h2 className="text-2xl sm:text-2xl md:text-3xl font-bold mb-4 sm:mb-5 md:mb-6 text-purple-600">نتيجة الاختبار</h2>
+                <div className="text-5xl sm:text-5xl md:text-6xl font-bold mb-3 sm:mb-3 md:mb-4 text-gray-800">
+                    {score} / {quiz.questions?.length || 0}
+                </div>
+                <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-7 md:mb-8 px-2">
+                    {score === (quiz.questions?.length || 0) ? 'ممتاز! إجاباتك كلها صحيحة 🌟' :
+                        score > (quiz.questions?.length || 0) / 2 ? 'جيد جداً! حاول مرة أخرى لتحقيق العلامة الكاملة 👍' :
+                            'حاول مرة أخرى، يمكنك فعل الأفضل 💪'}
+                </p>
+                <button
+                    onClick={() => navigate('/quizzes')}
+                    className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 sm:px-7 md:px-8 py-3 sm:py-3 md:py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition min-h-[48px] text-base sm:text-base md:text-base"
+                >
+                    العودة لقائمة الاختبارات
+                </button>
+            </div>
+        );
+    }
+
+    const question = quiz.questions?.[currentQuestion];
+    const progress = ((currentQuestion + 1) / (quiz.questions?.length || 1)) * 100;
+
+    if (!question) {
+        return (
+            <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-5 sm:p-6 md:p-8 text-center">
+                <h2 className="text-xl sm:text-xl md:text-2xl font-bold mb-4 text-red-600">خطأ</h2>
+                <p className="text-sm sm:text-base md:text-base text-gray-600 mb-6 px-2">لا توجد أسئلة في هذا الاختبار</p>
+                <button
+                    onClick={() => navigate('/quizzes')}
+                    className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 sm:px-7 md:px-8 py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition min-h-[48px] text-base"
+                >
+                    العودة لقائمة الاختبارات
+                </button>
+            </div>
+        );
+    }
+
+    return (
+        <div className="max-w-3xl mx-auto px-2 sm:px-4">
+            <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 md:p-8">
+                <div className="mb-4 sm:mb-5 md:mb-6">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-3 gap-2">
+                        <span className="text-sm sm:text-base md:text-base text-gray-600">السؤال {currentQuestion + 1} من {quiz.questions?.length || 0}</span>
+                        <span className="font-bold text-purple-600 text-sm sm:text-base md:text-base">{quiz.title}</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-3">
+                        <div className="bg-purple-600 h-3 rounded-full transition-all duration-300" style={{ width: `${progress}%` }}></div>
+                    </div>
+                </div>
+
+                <div className="mb-3 sm:mb-4 md:mb-4">
+                    <span className={`px-3 sm:px-3 md:px-3 py-1.5 rounded-full text-sm sm:text-sm md:text-sm font-semibold ${quiz.difficulty === 'سهل' ? 'bg-green-500 text-white' :
+                        quiz.difficulty === 'متوسط' ? 'bg-yellow-500 text-white' :
+                            'bg-red-500 text-white'
+                        }`}>
+                        {quiz.difficulty}
+                    </span>
+                </div>
+
+                <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-6 sm:mb-7 md:mb-8 text-right leading-relaxed px-1">{question.question}</h3>
+
+                <div className="space-y-3 sm:space-y-3 md:space-y-4">
+                    {question.options?.map((option, index) => (
+                        <button
+                            key={index}
+                            onClick={() => handleAnswerSelect(currentQuestion, index)}
+                            className={`w-full p-3.5 sm:p-4 md:p-4 rounded-lg text-right border-2 transition-all min-h-[52px] text-base sm:text-base md:text-base ${answers[currentQuestion] === index
+                                ? 'border-purple-600 bg-purple-50 text-purple-700 font-semibold'
+                                : 'border-gray-200 hover:border-purple-300 hover:bg-gray-50'
+                                }`}
+                        >
+                            {option}
+                        </button>
+                    ))}
+                </div>
+
+                <div className="mt-6 sm:mt-7 md:mt-8 flex justify-end">
+                    <button
+                        onClick={handleNext}
+                        disabled={answers[currentQuestion] === undefined}
+                        className={`px-6 sm:px-7 md:px-8 py-3 rounded-lg font-semibold text-white transition min-h-[48px] text-base sm:text-base md:text-base ${answers[currentQuestion] !== undefined
+                            ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700'
+                            : 'bg-gray-300 cursor-not-allowed'
+                            }`}
+                    >
+                        {currentQuestion === (quiz.questions?.length || 0) - 1 ? 'إنهاء الاختبار' : 'التالي'}
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default TakeQuiz;
+
