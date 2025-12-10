@@ -148,7 +148,7 @@ const AddQuiz = () => {
                 message: 'تم إضافة الاختبار الجديد بنجاح!',
                 type: 'success'
             });
-            setTimeout(() => window.location.href = '/quizzes', 1500);
+            setTimeout(() => navigate('/quizzes'), 1500);
         } catch (error) {
             console.error(error);
             setModalConfig({
@@ -161,7 +161,7 @@ const AddQuiz = () => {
     };
 
     return (
-        <div className="max-w-4xl mx-auto space-y-6">
+        <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6">
             <Modal
                 isOpen={modalConfig.isOpen}
                 onClose={() => setModalConfig(prev => ({ ...prev, isOpen: false }))}
@@ -170,24 +170,24 @@ const AddQuiz = () => {
                 type={modalConfig.type}
             />
 
-            <div className="bg-white rounded-lg shadow-md p-8">
-                <h2 className="text-2xl font-bold mb-6 text-right">إضافة اختبار جديد</h2>
-                <div className="space-y-4">
+            <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 md:p-8">
+                <h2 className="text-xl sm:text-2xl md:text-2xl font-bold mb-4 sm:mb-6 text-right">إضافة اختبار جديد</h2>
+                <div className="space-y-3 sm:space-y-4">
                     <div>
-                        <label className="block text-right mb-2 font-semibold">عنوان الاختبار</label>
+                        <label className="block text-right mb-2 font-semibold text-sm sm:text-base">عنوان الاختبار</label>
                         <input
                             type="text"
                             value={formData.title}
                             onChange={e => setFormData({ ...formData, title: e.target.value })}
-                            className="w-full p-3 border rounded-lg text-right"
+                            className="w-full p-3 border rounded-lg text-right text-base min-h-[48px]"
                         />
                     </div>
                     <div>
-                        <label className="block text-right mb-2 font-semibold">التصنيف</label>
+                        <label className="block text-right mb-2 font-semibold text-sm sm:text-base">التصنيف</label>
                         <select
                             value={formData.categoryName}
                             onChange={e => setFormData({ ...formData, categoryName: e.target.value })}
-                            className="w-full p-3 border rounded-lg text-right"
+                            className="w-full p-3 border rounded-lg text-right text-base min-h-[48px]"
                         >
                             <option value="">اختر التصنيف</option>
                             {categories.map(cat => (
@@ -196,11 +196,11 @@ const AddQuiz = () => {
                         </select>
                     </div>
                     <div>
-                        <label className="block text-right mb-2 font-semibold">مستوى الصعوبة</label>
+                        <label className="block text-right mb-2 font-semibold text-sm sm:text-base">مستوى الصعوبة</label>
                         <select
                             value={formData.difficulty}
                             onChange={e => setFormData({ ...formData, difficulty: e.target.value })}
-                            className="w-full p-3 border rounded-lg text-right"
+                            className="w-full p-3 border rounded-lg text-right text-base min-h-[48px]"
                         >
                             <option value="سهل">سهل</option>
                             <option value="متوسط">متوسط</option>
@@ -212,16 +212,16 @@ const AddQuiz = () => {
 
             <div className="space-y-4">
                 {formData.questions.map((q, qIndex) => (
-                    <div key={qIndex} className="bg-white rounded-lg shadow-md p-6">
-                        <h3 className="text-lg font-bold mb-4 text-right">السؤال {qIndex + 1}</h3>
+                    <div key={qIndex} className="bg-white rounded-lg shadow-md p-4 sm:p-6">
+                        <h3 className="text-base sm:text-lg font-bold mb-3 sm:mb-4 text-right">السؤال {qIndex + 1}</h3>
                         <input
                             type="text"
                             placeholder="نص السؤال"
                             value={q.text}
                             onChange={e => updateQuestion(qIndex, 'text', e.target.value)}
-                            className="w-full p-3 border rounded-lg text-right mb-4"
+                            className="w-full p-3 border rounded-lg text-right mb-3 sm:mb-4 text-base min-h-[48px]"
                         />
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                             {q.answers.map((a, aIndex) => (
                                 <div key={aIndex} className="flex items-center gap-2">
                                     <input
@@ -229,14 +229,14 @@ const AddQuiz = () => {
                                         name={`correct-${qIndex}`}
                                         checked={a.isCorrect}
                                         onChange={() => updateAnswer(qIndex, aIndex, 'isCorrect', true)}
-                                        className="w-4 h-4"
+                                        className="w-5 h-5 flex-shrink-0"
                                     />
                                     <input
                                         type="text"
                                         placeholder={`الإجابة ${aIndex + 1}`}
                                         value={a.text}
                                         onChange={e => updateAnswer(qIndex, aIndex, 'text', e.target.value)}
-                                        className={`w-full p-2 border rounded-lg text-right ${a.isCorrect ? 'border-green-500 bg-green-50' : ''}`}
+                                        className={`w-full p-3 border rounded-lg text-right text-base min-h-[48px] ${a.isCorrect ? 'border-green-500 bg-green-50' : ''}`}
                                     />
                                 </div>
                             ))}
@@ -245,11 +245,11 @@ const AddQuiz = () => {
                 ))}
             </div>
 
-            <div className="flex gap-4">
-                <button onClick={addQuestion} className="flex-1 bg-gray-600 text-white py-3 rounded-lg font-semibold hover:bg-gray-700 transition">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                <button onClick={addQuestion} className="w-full sm:flex-1 bg-gray-600 text-white py-3 rounded-lg font-semibold hover:bg-gray-700 transition text-base min-h-[48px]">
                     + إضافة سؤال
                 </button>
-                <button onClick={handleSubmit} className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition">
+                <button onClick={handleSubmit} className="w-full sm:flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition text-base min-h-[48px]">
                     حفظ الاختبار
                 </button>
             </div>

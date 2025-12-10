@@ -93,7 +93,7 @@ const UpdateQuiz = () => {
         try {
             await api.updateQuiz(id, formData);
             alert('تم تحديث الاختبار بنجاح!');
-            window.location.href = '/quizzes';
+            navigate('/quizzes');
         } catch (error) {
             alert('فشل تحديث الاختبار');
         }
@@ -106,28 +106,28 @@ const UpdateQuiz = () => {
     };
 
     return (
-        <div className="bg-white rounded-lg shadow-md p-8 max-w-4xl mx-auto">
-            <h2 className="text-2xl font-bold mb-6 text-right">تعديل الاختبار</h2>
+        <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 md:p-8 max-w-4xl mx-auto">
+            <h2 className="text-xl sm:text-2xl md:text-2xl font-bold mb-4 sm:mb-6 md:mb-6 text-right">تعديل الاختبار</h2>
 
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
                 {/* Basic Info */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                     <div>
-                        <label className="block text-right mb-2 font-semibold">عنوان الاختبار</label>
+                        <label className="block text-right mb-2 font-semibold text-sm sm:text-base">عنوان الاختبار</label>
                         <input
                             type="text"
                             value={formData.title}
                             onChange={e => setFormData({ ...formData, title: e.target.value })}
-                            className="w-full p-3 border rounded-lg text-right"
+                            className="w-full p-3 sm:p-3 border rounded-lg text-right text-base"
                             placeholder="مثال: اختبار الرياضيات 1"
                         />
                     </div>
                     <div>
-                        <label className="block text-right mb-2 font-semibold">التصنيف</label>
+                        <label className="block text-right mb-2 font-semibold text-sm sm:text-base">التصنيف</label>
                         <select
                             value={formData.category}
                             onChange={e => setFormData({ ...formData, category: e.target.value })}
-                            className="w-full p-3 border rounded-lg text-right"
+                            className="w-full p-3 sm:p-3 border rounded-lg text-right text-base"
                         >
                             {categories.map(cat => (
                                 <option key={cat.id} value={cat.name}>{cat.name}</option>
@@ -137,11 +137,11 @@ const UpdateQuiz = () => {
                 </div>
 
                 <div>
-                    <label className="block text-right mb-2 font-semibold">مستوى الصعوبة</label>
+                    <label className="block text-right mb-2 font-semibold text-sm sm:text-base">مستوى الصعوبة</label>
                     <select
                         value={formData.difficulty}
                         onChange={e => setFormData({ ...formData, difficulty: e.target.value })}
-                        className="w-full p-3 border rounded-lg text-right"
+                        className="w-full p-3 sm:p-3 border rounded-lg text-right text-base"
                     >
                         <option value="سهل">سهل</option>
                         <option value="متوسط">متوسط</option>
@@ -150,87 +150,90 @@ const UpdateQuiz = () => {
                 </div>
 
                 {/* Questions Section */}
-                <div className="border-t pt-6">
-                    <div className="flex justify-between items-center mb-4">
+                <div className="border-t pt-4 sm:pt-6">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-3">
                         <button
                             onClick={handleAddQuestion}
-                            className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700 transition"
+                            className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-purple-600 text-white px-5 sm:px-6 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition text-base font-semibold min-h-[48px]"
                         >
                             ➕ إضافة سؤال
                         </button>
-                        <h3 className="text-xl font-bold">الأسئلة ({formData.questions.length})</h3>
+                        <h3 className="text-lg sm:text-xl font-bold">الأسئلة ({formData.questions.length})</h3>
                     </div>
 
                     {formData.questions.length === 0 ? (
-                        <div className="text-center py-12 bg-gray-50 rounded-lg">
-                            <div className="text-6xl mb-4">📝</div>
-                            <p className="text-gray-600 mb-4">لا توجد أسئلة بعد</p>
+                        <div className="text-center py-8 sm:py-12 bg-gray-50 rounded-lg">
+                            <div className="text-5xl sm:text-6xl mb-3 sm:mb-4">📝</div>
+                            <p className="text-gray-600 mb-3 sm:mb-4 text-sm sm:text-base">لا توجد أسئلة بعد</p>
                             <button
                                 onClick={handleAddQuestion}
-                                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition"
+                                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-5 sm:px-6 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition text-base min-h-[48px]"
                             >
                                 إضافة السؤال الأول
                             </button>
                         </div>
                     ) : (
-                        <div className="space-y-6">
+                        <div className="space-y-4 sm:space-y-6">
                             {formData.questions.map((q, qIndex) => (
-                                <div key={qIndex} className="border rounded-lg p-6 bg-gray-50">
-                                    <div className="flex justify-between items-start mb-4">
-                                        <button
-                                            onClick={() => handleDeleteQuestion(qIndex)}
-                                            className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
-                                        >
-                                            🗑️ حذف
-                                        </button>
-                                        <div className="flex items-center gap-3">
+                                <div key={qIndex} className="border rounded-lg p-4 sm:p-6 bg-gray-50">
+                                    {/* Header with difficulty and delete button */}
+                                    <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-start mb-4 gap-3">
+                                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 order-2 sm:order-1">
+                                            <button
+                                                onClick={() => handleDeleteQuestion(qIndex)}
+                                                className="bg-red-500 text-white px-4 py-3 rounded-lg hover:bg-red-600 transition font-semibold text-base min-h-[48px] w-full sm:w-auto"
+                                            >
+                                                🗑️ حذف
+                                            </button>
                                             <select
                                                 value={q.difficulty}
                                                 onChange={e => handleQuestionChange(qIndex, 'difficulty', e.target.value)}
-                                                className={`px-3 py-1 rounded-full text-sm font-semibold ${getDifficultyClass(q.difficulty)}`}
+                                                className={`px-4 py-3 rounded-lg text-base font-semibold min-h-[48px] w-full sm:w-auto ${getDifficultyClass(q.difficulty)}`}
                                             >
                                                 <option value="سهل">سهل</option>
                                                 <option value="متوسط">متوسط</option>
                                                 <option value="صعب">صعب</option>
                                             </select>
-                                            <span className="font-bold text-lg">السؤال {qIndex + 1}</span>
                                         </div>
+                                        <span className="font-bold text-lg sm:text-xl text-right order-1 sm:order-2">السؤال {qIndex + 1}</span>
                                     </div>
 
+                                    {/* Question text */}
                                     <div className="mb-4">
-                                        <label className="block text-right mb-2 font-semibold">نص السؤال</label>
+                                        <label className="block text-right mb-2 font-semibold text-sm sm:text-base">نص السؤال</label>
                                         <textarea
                                             value={q.question}
                                             onChange={e => handleQuestionChange(qIndex, 'question', e.target.value)}
-                                            className="w-full p-3 border rounded-lg text-right"
+                                            className="w-full p-3 border rounded-lg text-right text-base"
                                             rows="3"
                                             placeholder="أدخل نص السؤال هنا..."
                                         />
                                     </div>
 
+                                    {/* Options */}
                                     <div className="space-y-3">
-                                        <label className="block text-right font-semibold">الخيارات</label>
+                                        <label className="block text-right font-semibold text-sm sm:text-base">الخيارات</label>
                                         {q.options.map((opt, optIndex) => (
-                                            <div key={optIndex} className="flex items-center gap-3">
+                                            <div key={optIndex} className="flex items-center gap-2 sm:gap-3">
                                                 <input
                                                     type="radio"
                                                     name={`correct-${qIndex}`}
                                                     checked={q.correctAnswer === optIndex}
                                                     onChange={() => handleQuestionChange(qIndex, 'correctAnswer', optIndex)}
-                                                    className="w-5 h-5"
+                                                    className="w-5 h-5 sm:w-5 sm:h-5 flex-shrink-0"
                                                     title="الإجابة الصحيحة"
                                                 />
                                                 <input
                                                     type="text"
                                                     value={opt}
                                                     onChange={e => handleOptionChange(qIndex, optIndex, e.target.value)}
-                                                    className="flex-1 p-3 border rounded-lg text-right"
+                                                    className="flex-1 p-3 border rounded-lg text-right text-base min-h-[48px]"
                                                     placeholder={`الخيار ${optIndex + 1}`}
                                                 />
-                                                <span className="text-gray-600 font-semibold">{optIndex + 1}</span>
+                                                <span className="text-gray-600 font-semibold text-base flex-shrink-0">{optIndex + 1}</span>
                                             </div>
                                         ))}
-                                        <p className="text-sm text-gray-600 text-right">
+                                        <p className="text-xs sm:text-sm text-gray-600 text-right">
                                             ✓ اختر الدائرة بجانب الإجابة الصحيحة
                                         </p>
                                     </div>
@@ -241,16 +244,16 @@ const UpdateQuiz = () => {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex gap-4 pt-6 border-t">
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4 sm:pt-6 border-t">
                     <button
                         onClick={handleSubmit}
-                        className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 transition"
+                        className="w-full sm:flex-1 bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 transition text-base min-h-[48px]"
                     >
                         💾 حفظ التعديلات
                     </button>
                     <Link
                         to="/quizzes"
-                        className="flex-1 bg-gray-600 text-white py-3 rounded-lg font-semibold hover:bg-gray-700 transition text-center"
+                        className="w-full sm:flex-1 bg-gray-600 text-white py-3 rounded-lg font-semibold hover:bg-gray-700 transition text-center text-base min-h-[48px] flex items-center justify-center"
                     >
                         ❌ إلغاء
                     </Link>
